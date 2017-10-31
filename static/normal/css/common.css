@@ -1,0 +1,23 @@
+.ivu-table-header table,
+.ivu-table-wrapper table tbody{
+  font-size:14px;
+}
+.clearfix:after{
+  content:'';
+  clear:both;
+  display:block;
+}
+.ivu-page{
+  display:flex;
+  justify-content: flex-end;
+  margin-top:20px;
+}
+.ivu-page-next,
+.ivu-page-prev{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.ivu-table{
+  height:auto;
+}
