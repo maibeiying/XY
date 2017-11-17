@@ -1,5 +1,5 @@
 <template>
-  <Menu theme="dark" accordion active-name="siteView" :open-names=openNames>
+  <Menu v-once theme="dark" accordion active-name="siteView" :open-names='openNames'>
     <Submenu name="analizy">
       <template slot="title">
         <Icon type="stats-bars" size="20"></Icon>

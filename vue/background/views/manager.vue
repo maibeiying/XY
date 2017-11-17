@@ -70,8 +70,8 @@
         this.$http.post('./user/removeUser', {
           _id: row._id
         }).then(data => {
-          if (data.result.code === 1) {
-            this.$Message.success(data.result.msg)
+          if (data.code === 1) {
+            this.$Message.success(data.msg)
             this.getUsers()
           } else {
             this.$Message.error('删除失败')
@@ -84,8 +84,8 @@
           username: this.username
         }).then(data => {
           this.dialog = false
-          if (data.result.code === 1) {
-            this.$Message.success(data.result.msg)
+          if (data.code === 1) {
+            this.$Message.success(data.msg)
             this.username = ''
             this.getUsers()
           } else {
@@ -103,8 +103,8 @@
           }
         }).then(data => {
           // this.loading = false
-          this.tableData = data.result.result
-          this.count = data.result.count
+          this.tableData = data.result
+          this.count = data.count
           for (let row of this.tableData) {
             let date = new Date(row.logindate)
             row.logindate = `${date.getFullYear()}-${this.double(date.getMonth() + 1)}-${this.double(date.getDate())}

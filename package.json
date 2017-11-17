@@ -1,10 +1,10 @@
 {
-  "name": "qule",
+  "name": "XY",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=dev supervisor --inspect ./bin/qule",
-    "build": "webpack -p --hide-modules --progress --config webpack.prod.conf"
+    "start": "supervisor -i static ./bin/XY",
+    "build": "webpack -p --hide-modules --progress --config build/webpack.prod.conf"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

@@ -3,11 +3,11 @@ var router = express.Router()
 
 /* GET users listing. */
 router.get('/background', (req, res, next) => {
-  res.render('./dist/background')
+  res.render('background')
 })
 
 router.get('/front', function(req, res, next) {
-  res.render('./dist/front')
+  res.render('front')
 })
 
 module.exports = router

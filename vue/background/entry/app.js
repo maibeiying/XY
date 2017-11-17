@@ -6,9 +6,11 @@ import router from '../router/index'
 import store from '../vuex/store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import iview from 'iview'
 import '../../interceptors/interceptors'
 
 Vue.use(VueAxios, axios)
+Vue.use(iview)
 
 if (module.hot) {
   module.hot.accept()
