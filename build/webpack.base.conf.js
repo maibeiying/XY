@@ -2,6 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 const cssnext = require('postcss-cssnext')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const outputPath = path.resolve(__dirname, 'static/dist/')
 const publicPath = '/dist/'
 
@@ -81,6 +83,23 @@ module.exports = {
     ]
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      title: 'XY',
+      alwaysWriteToDisk: true,
+      template: './views/background.html',
+      filename: 'background.html',
+      chunks: ['background']
+    }),
+    new HtmlWebpackPlugin({
+      title: 'XY',
+      alwaysWriteToDisk: true,
+      template: './views/front.html',
+      filename: 'front.html',
+      chunks: ['front']
+    }),
+    new HtmlWebpackHarddiskPlugin({
+      outputPath: path.resolve(__dirname, '../views/dist')
+    }),
     new webpack.LoaderOptionsPlugin({
       vue: {
         postcss: [

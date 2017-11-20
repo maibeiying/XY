@@ -16,6 +16,15 @@ if (module.hot) {
   module.hot.accept()
 }
 
+router.beforeEach((to, from, next) => {
+  iview.LoadingBar.start()
+  next()
+})
+
+router.afterEach(route => {
+  iview.LoadingBar.finish()
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

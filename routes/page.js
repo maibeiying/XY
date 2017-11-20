@@ -3,7 +3,7 @@ var router = express.Router()
 
 /* GET users listing. */
 router.get('/background', (req, res, next) => {
-  res.render('background')
+  res.render('dist/background')
 })
 
 router.get('/front', function(req, res, next) {

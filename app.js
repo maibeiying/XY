@@ -21,6 +21,7 @@ app.use(webpackDevMiddleware(compiler, {
     colors: true
   }
 }))
+// console.log(compiler.outputFileSystem.readFileSync(compiler.outputPath))
 app.use(webpackHotMiddleware(compiler))
 
 // view engine setup

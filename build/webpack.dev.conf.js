@@ -9,6 +9,9 @@ module.exports = merge(baseWebpackConfig, {
     'background': [hotMiddlewareScript, './vue/background/entry/app.js']
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    }),
     new webpack.HotModuleReplacementPlugin()
   ]
 })

@@ -57,6 +57,15 @@
         <router-link to="/home/category">商品分类</router-link>
       </MenuItem>
     </Submenu>
+    <Submenu name="categoryManger">
+      <template slot="title">
+        <Icon type="pricetags" size="20"></Icon>
+        <span>评价管理</span>
+      </template>
+      <MenuItem name="category">
+        <router-link to="/home/category">评价列表</router-link>
+      </MenuItem>
+    </Submenu>
 </Menu>
 </template>
 <script>
