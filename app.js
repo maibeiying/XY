@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 const ejs = require('ejs')
+const session = require('express-session')
 const webpack = require("webpack")
 const webpackConfig = require('./build/webpack.dev.conf')
 const webpackDevMiddleware = require('webpack-dev-middleware')
@@ -21,7 +22,6 @@ app.use(webpackDevMiddleware(compiler, {
     colors: true
   }
 }))
-// console.log(compiler.outputFileSystem.readFileSync(compiler.outputPath))
 app.use(webpackHotMiddleware(compiler))
 
 // view engine setup
@@ -34,8 +34,17 @@ app.set('view engine', 'html')
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser());
+app.use(cookieParser('xy'));
 app.use(express.static(path.join(__dirname, 'static')))
+app.use(session({
+  secret: 'xy',
+  name: 'xy',   // 这里的name值得是cookie的name，默认cookie的name是：connect.sid
+  cookie: {
+    // maxAge: 24*60*60*1000 
+  }, // 设置maxAge是80000ms，即80s后session和相应的cookie失效过期
+  resave: true,
+  saveUninitialized:true
+}));
 
 require('./routes/routes')(app)
 

@@ -1,3 +1,3 @@
 <template>
-  <div>添加商品</div>
+  <div></div>
 </template>

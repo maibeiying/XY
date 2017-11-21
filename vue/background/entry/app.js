@@ -17,6 +17,7 @@ if (module.hot) {
 }
 
 router.beforeEach((to, from, next) => {
+  console.log(to.matched)
   iview.LoadingBar.start()
   next()
 })

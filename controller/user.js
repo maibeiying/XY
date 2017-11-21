@@ -11,6 +11,7 @@ class User {
     let result = await userModel.findOne({userpwd, userpwd})
     if (result) {
       await userModel.update({username, userpwd}, {$set: {device, logindate}})
+      req.session.user = result
       res.json({logindate, code: 1})
     } else {
       res.json({msg: '账号或密码错误', code: -1})

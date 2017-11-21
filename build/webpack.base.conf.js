@@ -1,11 +1,15 @@
 const path = require('path')
+const os = require('os')
 const webpack = require('webpack')
 const cssnext = require('postcss-cssnext')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const outputPath = path.resolve(__dirname, 'static/dist/')
-const publicPath = '/dist/'
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
+const HappyPack = require('happypack')
+
+let happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
+let outputPath = path.resolve(__dirname, 'static/dist/')
+let publicPath = '/dist/'
 
 
 module.exports = {
@@ -42,17 +46,19 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        // loader: 'happypack/loader?id=styles',
         options: {
           loaders:{
-            css: ExtractTextPlugin.extract({
+            css: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
               use: 'css-loader',
               fallback: 'vue-style-loader'
-            })
+            }))
           }
         }
       },
       {
         test: /\.js$/,
+        // loader: 'happypack/loader?id=js',
         loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
@@ -83,20 +89,65 @@ module.exports = {
     ]
   },
   plugins: [
+    /*new HappyPack({
+      id: 'js',
+      loaders: [{
+        path: 'babel-loader',
+        options: {
+          'presets': ['env', 'stage-3'],
+          'plugins': ["transform-runtime"]
+        }
+      }],
+      threadPool: happyThreadPool,
+      cache: true,
+      verbose: true
+    }),
+    new HappyPack({
+      id: 'styles',
+      threadPool: happyThreadPool,
+      loaders: [{
+        path: 'vue-loader',
+        options: {
+          loaders:{
+            css: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+              use: 'css-loader',
+              fallback: 'vue-style-loader'
+            }))
+          }
+        }
+      }]
+      // loaders: [ 'vue-style-loader', 'css-loader', 'postcss-loader', 'css-hot-loader']
+    }),*/
     new HtmlWebpackPlugin({
       title: 'XY',
       alwaysWriteToDisk: true,
       template: './views/background.html',
       filename: 'background.html',
-      chunks: ['background']
+      chunks: ['background'],
+      /* minify: {
+        removeComments: true, // 去掉注释
+        minifyJS: true, // 压缩js
+        minifyCSS: true, // 压缩css
+        collapseWhitespace: true, // 去掉空格
+        useShortDoctype: true,
+        removeScriptTypeAttributes: true
+      } */
     }),
-    new HtmlWebpackPlugin({
+    /* new HtmlWebpackPlugin({
       title: 'XY',
       alwaysWriteToDisk: true,
       template: './views/front.html',
       filename: 'front.html',
-      chunks: ['front']
-    }),
+      chunks: ['front'],
+      minify: {
+        removeComments: true, // 去掉注释
+        minifyJS: true, // 压缩js
+        minifyCSS: true, // 压缩css
+        collapseWhitespace: true, // 去掉空格
+        useShortDoctype: true,
+        removeScriptTypeAttributes: true
+      }
+    }),*/
     new HtmlWebpackHarddiskPlugin({
       outputPath: path.resolve(__dirname, '../views/dist')
     }),
