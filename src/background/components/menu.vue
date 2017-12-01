@@ -1,5 +1,5 @@
 <template>
-  <Menu theme="dark" accordion active-name="siteView" :open-names=openNames>
+  <Menu ref="slider" v-once theme="dark" accordion :active-name="activeName" :open-names='openNames'>
     <Submenu name="analizy">
       <template slot="title">
         <Icon type="stats-bars" size="20"></Icon>
@@ -57,13 +57,51 @@
         <router-link to="/home/category">商品分类</router-link>
       </MenuItem>
     </Submenu>
+    <Submenu name="evaluateManger">
+      <template slot="title">
+        <Icon type="pricetags" size="20"></Icon>
+        <span>评价管理</span>
+      </template>
+      <MenuItem name="evaluate">
+        <router-link to="/home/evaluate">评价列表</router-link>
+      </MenuItem>
+    </Submenu>
 </Menu>
 </template>
 <script>
   export default {
     data () {
       return {
-        openNames: ['analizy']
+        openNames: [],
+        activeName: ''
+      }
+    },
+    mounted () {
+      let menus = {
+        analizy: ['siteView', 'userFb'],
+        userManage: ['custom', 'manager'],
+        goods: ['goodsManage', 'addGoods'],
+        bannerManger: ['banner', 'addBanner'],
+        categoryManger: ['category'],
+        evaluateManger: ['evaluate']
+      }
+      this.activeName = location.hash.split('/').pop()
+      for (let key in menus) {
+        if (~menus[key].indexOf(this.activeName)) {
+          this.openNames = [key]
+          break
+        }
+      }
+    },
+    watch: {
+      activeName () {
+        this.$refs.slider.activeName = this.activeName
+        this.$refs.slider.openNames = this.openNames
+        this.$nextTick(() => {
+          console.log(this.activeName)
+          this.$refs.slider.updateOpened()
+          this.$refs.slider.updateActiveName()
+        })
       }
     }
   }

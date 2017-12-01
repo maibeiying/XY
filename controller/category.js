@@ -6,7 +6,8 @@ class Category {
   // 添加分类
   addCate (req, res) {
     let catename = req.body.catename
-    cateModel.create({catename}, (err, result) => {
+    let count = 0
+    cateModel.create({catename, count}, (err, result) => {
       if (err) return response({msg: err.message, code: -1}, res)
       response({msg: '添加成功', code: 1}, res)
     })

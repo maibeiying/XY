@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const db = mongoose.createConnection('mongodb://maibeiying:27017/qule')
+const db = mongoose.createConnection('mongodb://maibeiying:27017/xy')
 mongoose.Promise = global.Promise
 
 // 链接错误

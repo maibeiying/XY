@@ -1,18 +1,21 @@
 const mongoose = require('mongoose')
 const db = require('../mongodb/db')
 let userSchema = new mongoose.Schema({
-  username: String,
+  username: {
+    type: String,
+    index: true,
+    unique: true,
+    required: true
+  },
   /* userid: {
     type: String,
     default: new mongoose.Types.ObjectId
   }, */
   userpwd: {
-    type: String,
-    default: '000000'
+    type: String
   },
   logindate: {
-    type: Date,
-    default: new Date()
+    type: String
   },
   device: {
     type: String,
@@ -22,8 +25,7 @@ let userSchema = new mongoose.Schema({
     type: String,
     index: true
   }
-})
+}, {collection: 'users'})
 let userModel = db.model('users', userSchema)
-let userCollection = db.collection('users')
-// userCollection.createIndex({"username": 1}, {"unique": true})
+// userSchema.index({username: 1})
 module.exports = userModel

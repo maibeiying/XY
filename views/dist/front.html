@@ -1,15 +1,55 @@
-<!DOCTYPE>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>乐趣</title>
-    <link href="https://cdn.bootcss.com/minireset.css/0.0.2/minireset.min.css" rel="stylesheet">
-  <link href="/dist/front.css" rel="stylesheet"></head>
-  <body>
-    <div id="app"></div>
-    <script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script>
-    <script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js"></script>
-    <script src="https://cdn.bootcss.com/vuex/2.4.1/vuex.min.js"></script>
-    <script src="https://cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
-  <script type="text/javascript" src="/dist/front.js"></script></body>
-</html>
+Html Webpack Plugin:
+<pre>
+  Error: Parse Error: <!DOCTYPE> 
+  <html> 
+    <head> 
+      <meta charset="UTF-8"> 
+      <title>XY</title> 
+      <link href="https://cdn.bootcss.com/minireset.css/0.0.2/minireset.min.css" rel="stylesheet"> 
+    <link href="/dist/front.css" rel="stylesheet"></head> 
+    <body> 
+      <div id="app"></div> 
+      <script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script> 
+      <script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js"></script> 
+      <script src="https://cdn.bootcss.com/vuex/2.4.1/vuex.min.js"></script> 
+      <script src="https://cdn.bootcss.com/axios/0.16.2/axios.min.js"></script> 
+    <script type="text/javascript" src="/dist/front.js"></script></body> 
+  </html>
+  
+  - htmlparser.js:235 new HTMLParser
+    [XY]/[html-minifier]/src/htmlparser.js:235:13
+  
+  - htmlminifier.js:944 minify
+    [XY]/[html-minifier]/src/htmlminifier.js:944:3
+  
+  - htmlminifier.js:1297 exports.minify
+    [XY]/[html-minifier]/src/htmlminifier.js:1297:10
+  
+  - index.js:296 
+    [XY]/[html-webpack-plugin]/index.js:296:16
+  
+  - util.js:16 tryCatcher
+    [XY]/[bluebird]/js/release/util.js:16:23
+  
+  - promise.js:512 Promise._settlePromiseFromHandler
+    [XY]/[bluebird]/js/release/promise.js:512:31
+  
+  - promise.js:569 Promise._settlePromise
+    [XY]/[bluebird]/js/release/promise.js:569:18
+  
+  - promise.js:614 Promise._settlePromise0
+    [XY]/[bluebird]/js/release/promise.js:614:10
+  
+  - promise.js:693 Promise._settlePromises
+    [XY]/[bluebird]/js/release/promise.js:693:18
+  
+  - async.js:133 Async._drainQueue
+    [XY]/[bluebird]/js/release/async.js:133:16
+  
+  - async.js:143 Async._drainQueues
+    [XY]/[bluebird]/js/release/async.js:143:10
+  
+  - async.js:17 Immediate.Async.drainQueues
+    [XY]/[bluebird]/js/release/async.js:17:14
+  
+</pre>
