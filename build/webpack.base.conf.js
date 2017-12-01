@@ -119,11 +119,11 @@ module.exports = {
       // loaders: [ 'vue-style-loader', 'css-loader', 'postcss-loader', 'css-hot-loader']
     }),*/
     new HtmlWebpackPlugin({
-      title: 'XY',
+      title: 'XY体验社',
       alwaysWriteToDisk: true,
       template: './views/background.html',
       filename: 'background.html',
-      chunks: ['background'],
+      chunks: ['background']
       /* minify: {
         removeComments: true, // 去掉注释
         minifyJS: true, // 压缩js
