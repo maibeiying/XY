@@ -7,6 +7,9 @@ let cateSchema = new mongoose.Schema({
       unique: true
     },
     required: true
+  },
+  count: {
+    type: Number
   }
 })
 let cateModel = db.model('category', cateSchema)
