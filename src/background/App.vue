@@ -19,4 +19,10 @@ export default {
 }
 </script>
 <style>
+  .app-view{
+    color:#666;
+  }
+  textarea{
+    resize:none;
+  }
 </style>

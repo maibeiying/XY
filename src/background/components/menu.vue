@@ -76,7 +76,7 @@
         activeName: ''
       }
     },
-    mounted () {
+    created () {
       let menus = {
         analizy: ['siteView', 'userFb'],
         userManage: ['custom', 'manager'],
@@ -95,10 +95,7 @@
     },
     watch: {
       activeName () {
-        this.$refs.slider.activeName = this.activeName
-        this.$refs.slider.openNames = this.openNames
         this.$nextTick(() => {
-          console.log(this.activeName)
           this.$refs.slider.updateOpened()
           this.$refs.slider.updateActiveName()
         })
