@@ -17,6 +17,12 @@
       </Select>
     </div>
     <div class="row">
+      <label>上传主图 :</label>
+      <div class="f-r">
+        <upload></upload>
+      </div>
+    </div>
+    <div class="row">
       <label for="">商品描述 :</label>
       <Input v-model="desc" type="textarea" placeholder="请输入商品描述" class="f-r"></Input>
     </div>
@@ -30,7 +36,11 @@
   </div>
 </template>
 <script>
+  import upload from '../components/upload.vue'
   export default {
+    components: {
+      upload
+    },
     data () {
       return {
         name: '',
