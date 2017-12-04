@@ -4,7 +4,7 @@
       <template v-if="item.status === 'finished'">
         <img :src="item.url">
         <div class="upload-list-cover">
-          <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+          <Icon type="ios-eye-outline" @click.native="handleView(item)"></Icon>
           <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
         </div>
       </template>
@@ -21,44 +21,37 @@
       :max-size="2048"
       :on-format-error="handleFormatError"
       :on-exceeded-size="handleMaxSize"
-      :before-upload="handleBeforeUpload"
       multiple
       type="drag"
-      action="//jsonplaceholder.typicode.com/posts/"
+      action="./upload/upload"
+      v-show="uploadList.length < maxUploadLen"
       style="display: inline-block;width:58px;">
       <div class="camera">
         <Icon type="camera" size="20"></Icon>
       </div>
     </Upload>
     <Modal title="View Image" v-model="visible">
-      <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+      <img :src="imgUrl" v-if="visible" style="width: 100%">
     </Modal>
   </div>
 </template>
 <script>
   export default {
+    props: ['defaultList', 'maxUploadLen'],
     data () {
       return {
-        defaultList: [
-          {
-            'name': 'a42bdcc1178e62b4694c830f028db5c0',
-            'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
-          }, {
-            'name': 'bc7521e033abdd1e92222d733590f104',
-            'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
-          }
-        ],
-        imgName: '',
+        imgUrl: '',
         visible: false,
-        uploadList: []
+        uploadList: [],
+        tempDefaultList: this.defaultList
       }
     },
     mounted () {
       this.uploadList = this.$refs.upload.fileList
     },
     methods: {
-      handleView (name) {
-        this.imgName = name
+      handleView (item) {
+        this.imgUrl = item.url
         this.visible = true
       },
       handleRemove (file) {
@@ -66,8 +59,8 @@
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1)
       },
       handleSuccess (res, file) {
-        file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar'
-        file.name = '7eb99afb9d5f317c912f08b5212fd69a'
+        file.url = file.response.url
+        file.name = file.response.name
       },
       handleFormatError (file) {
         this.$Notice.warning({
@@ -80,15 +73,11 @@
           title: 'Exceeding file size limit',
           desc: 'File  ' + file.name + ' is too large, no more than 2M.'
         })
-      },
-      handleBeforeUpload () {
-        const check = this.uploadList.length < 5
-        if (!check) {
-          this.$Notice.warning({
-            title: 'Up to five pictures can be uploaded.'
-          })
-        }
-        return check
+      }
+    },
+    watch: {
+      uploadList () {
+        this.tempDefaultList = this.uploadList
       }
     }
   }
@@ -96,8 +85,8 @@
 <style scoped>
   .upload-list{
     display: inline-block;
-    width: 60px;
-    height: 60px;
+    max-width: 200px;
+    max-height: 200px;
     text-align: center;
     line-height: 60px;
     border: 1px solid transparent;
@@ -122,13 +111,15 @@
     background: rgba(0,0,0,.6);
   }
   .upload-list:hover .upload-list-cover{
-    display: block;
+    display: flex;
+    align-items:center;
+    justify-content: center;
   }
   .upload-list-cover i{
     color: #fff;
-    font-size: 20px;
+    font-size: 2rem;
     cursor: pointer;
-    margin: 0 2px;
+    margin: 0 20px;
   }
   .camera{
     width: 58px;

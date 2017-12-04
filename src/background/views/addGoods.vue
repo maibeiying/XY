@@ -18,8 +18,8 @@
     </div>
     <div class="row">
       <label>上传主图 :</label>
-      <div class="f-r">
-        <upload></upload>
+      <div class="upload-wrap">
+        <upload :defaultList.sync="ztList" :maxUploadLen="3"></upload>
       </div>
     </div>
     <div class="row">
@@ -47,7 +47,8 @@
         price: '',
         category: [],
         desc: '',
-        isshow: false
+        isshow: false,
+        ztList: [] // 主图
       }
     }
   }
@@ -56,10 +57,14 @@
   .row{
     display:flex;
     margin-bottom:20px;
-    max-width:40vw;
+    /*max-width:40vw;*/
     align-items: center;
     & .f-r{
       flex:1;
+      margin-left:20px;
+      max-width:40vw;
+    }
+    & .upload-wrap{
       margin-left:20px;
     }
     & .switch{
