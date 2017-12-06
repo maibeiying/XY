@@ -19,7 +19,7 @@
     <div class="row">
       <label>上传主图 :</label>
       <div class="upload-wrap">
-        <upload :defaultList.sync="ztList" :maxUploadLen="3"></upload>
+        <upload :defaultList.sync="ztList" :maxUploadLen="3" :uploadFiles="uploadFiles"></upload>
       </div>
     </div>
     <div class="row">
@@ -48,7 +48,8 @@
         category: [],
         desc: '',
         isshow: false,
-        ztList: [] // 主图
+        ztList: [], // 主图
+        uploadFiles: []
       }
     }
   }

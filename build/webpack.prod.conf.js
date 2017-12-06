@@ -6,8 +6,8 @@ const baseWebpackConfig = require('./webpack.base.conf')
 
 module.exports = merge(baseWebpackConfig, {
   entry: {
-    'front': './vue/front/entry/app.js',
-    'background': './vue/background/entry/app.js'
+    'front': './vue/front/app.js',
+    'background': './vue/background/app.js'
   },
   devtool: '',
   plugins: [

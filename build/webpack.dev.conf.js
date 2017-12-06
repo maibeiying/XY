@@ -5,8 +5,8 @@ const hotMiddlewareScript = 'webpack-hot-middleware/client?path=__webpack_hmr'
 
 module.exports = merge(baseWebpackConfig, {
   entry: {
-    'front': [hotMiddlewareScript, './src/front/entry/app.js'],
-    'background': [hotMiddlewareScript, './src/background/entry/app.js']
+    'front': [hotMiddlewareScript, './src/front/app.js'],
+    'background': [hotMiddlewareScript, './src/background/app.js']
   },
   plugins: [
     new webpack.DefinePlugin({

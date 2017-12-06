@@ -18,7 +18,7 @@
       :default-file-list="defaultList"
       :on-success="handleSuccess"
       :format="['jpg','jpeg','png']"
-      :max-size="2048"
+      :max-size="1024"
       :on-format-error="handleFormatError"
       :on-exceeded-size="handleMaxSize"
       multiple
@@ -37,13 +37,13 @@
 </template>
 <script>
   export default {
-    props: ['defaultList', 'maxUploadLen'],
+    props: ['defaultList', 'uploadFiles', 'maxUploadLen'],
     data () {
       return {
         imgUrl: '',
         visible: false,
-        uploadList: [],
-        tempDefaultList: this.defaultList
+        uploadList: []
+        // tempDefaultList: this.defaultList
       }
     },
     mounted () {
@@ -63,22 +63,21 @@
         file.name = file.response.name
       },
       handleFormatError (file) {
-        this.$Notice.warning({
-          title: 'The file format is incorrect',
-          desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-        })
+        this.$Message.error(`${file.name}文件格式不对`)
       },
       handleMaxSize (file) {
-        this.$Notice.warning({
-          title: 'Exceeding file size limit',
-          desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-        })
+        this.$Message.error(`${file.name}文件大小不能超过1M`)
+      }
+    },
+    computed: {
+      uploads () {
+        return this.uploadList
       }
     },
     watch: {
-      uploadList () {
-        this.tempDefaultList = this.uploadList
-      }
+      /* uploadList () {
+        this.uploadFiles = this.uploadList
+      } */
     }
   }
 </script>
