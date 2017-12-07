@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const db = require('../mongodb/db')
 let cateSchema = new mongoose.Schema({
-  catename: {
+  name: {
     type: String,
     index: {
       unique: true

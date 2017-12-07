@@ -43,7 +43,6 @@
         imgUrl: '',
         visible: false,
         uploadList: []
-        // tempDefaultList: this.defaultList
       }
     },
     mounted () {
@@ -69,15 +68,10 @@
         this.$Message.error(`${file.name}文件大小不能超过1M`)
       }
     },
-    computed: {
-      uploads () {
-        return this.uploadList
-      }
-    },
     watch: {
-      /* uploadList () {
-        this.uploadFiles = this.uploadList
-      } */
+      uploadList () {
+        this.$emit('update:uploadFiles', this.uploadList)
+      }
     }
   }
 </script>
@@ -97,8 +91,8 @@
     margin-right: 4px;
   }
   .upload-list img{
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
   .upload-list-cover{
     display: none;

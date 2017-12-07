@@ -68,9 +68,31 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          use: 'css-loader'
-        })
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+          use: ['css-loader', {
+            loader: 'postcss-loader',
+            options: {
+              plugins () {
+                return [cssnext({
+                  "browserslist": [
+                    "last 3 version",
+                    "ie 9"
+                  ],
+                  features: {
+                    customProperties: {
+                      variables: {
+                        '--main-color': '#409EFF',
+                        '--light-color': '#eaf6fc',
+                        '--c-color': '#ededed',
+                        '--border-color': '#efefef'
+                      }
+                    }
+                  }
+                })]
+              }
+            }
+          }]
+        }))
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

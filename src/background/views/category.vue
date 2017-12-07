@@ -10,7 +10,7 @@
         title="添加分类"
         @on-ok="addCate"
         @on-cancel="dialog=false">
-        <Input placeholder="输入分类名称" v-model.trim="catename" autofocus @on-enter="addCate"></Input>
+        <Input placeholder="输入分类名称" v-model.trim="name" autofocus @on-enter="addCate"></Input>
     </Modal>
   </div>
 </template>
@@ -21,7 +21,7 @@
         columns: [
           {
             title: '分类',
-            key: 'catename'
+            key: 'name'
           },
           {
             title: '商品数量',
@@ -52,7 +52,7 @@
         tableData: [],
         loading: false,
         dialog: false,
-        catename: '',
+        name: '',
         page: 1,
         pageSize: 10,
         count: 0
@@ -66,8 +66,8 @@
         this.$http.post('./category/removeCate', {
           _id: row._id
         }).then(data => {
-          if (data.result.code === 1) {
-            this.$Message.success(data.result.msg)
+          if (data.code === 1) {
+            this.$Message.success(data.msg)
             this.getCates()
           } else {
             this.$Message.success('删除失败')
@@ -75,14 +75,14 @@
         })
       },
       addCate () {
-        if (!this.catename) return this.$Message.warning('分类名称不能为空')
+        if (!this.name) return this.$Message.warning('分类名称不能为空')
         this.$http.post('./category/addCate', {
-          catename: this.catename
+          name: this.name
         }).then(data => {
           this.dialog = false
-          if (data.result.code === 1) {
-            this.$Message.success(data.result.msg)
-            this.catename = ''
+          if (data.code === 1) {
+            this.$Message.success(data.msg)
+            this.name = ''
             this.getCates()
           } else {
             this.$Message.error('添加失败')
@@ -90,11 +90,9 @@
         })
       },
       getCates () {
-        // this.loading = true
         this.$http.post('./category/getCates').then(data => {
-          // this.loading = false
-          this.tableData = data.result.result
-          this.count = data.result.count
+          this.tableData = data.result
+          this.count = data.count
         })
       }
     },

@@ -10,16 +10,20 @@
     </div>
     <div class="row">
       <label>商品分类 :</label>
-      <Select v-model="category" class="f-r">
-        <Option value="beijing">New York</Option>
-        <Option value="shanghai">London</Option>
-        <Option value="shenzhen">Sydney</Option>
+      <Select v-model="cateId" class="f-r">
+        <Option :value="key" v-for="(val, key) in categorys">{{val}}</Option>
       </Select>
     </div>
     <div class="row">
       <label>上传主图 :</label>
       <div class="upload-wrap">
-        <upload :defaultList.sync="ztList" :maxUploadLen="3" :uploadFiles="uploadFiles"></upload>
+        <upload :defaultList="ztList" maxUploadLen="1" :uploadFiles.sync="ztUploadFiles"></upload>
+      </div>
+    </div>
+    <div class="row">
+      <label>商品图片 :</label>
+      <div class="upload-wrap">
+        <upload :defaultList="tlList" maxUploadLen="6" :uploadFiles.sync="tLUploadFiles"></upload>
       </div>
     </div>
     <div class="row">
@@ -45,11 +49,31 @@
       return {
         name: '',
         price: '',
-        category: [],
+        cateId: '',
+        categorys: {},
         desc: '',
         isshow: false,
         ztList: [], // 主图
-        uploadFiles: []
+        tlList: [], // 商品图片
+        ztUploadFiles: [],
+        tLUploadFiles: []
+      }
+    },
+    created () {
+
+    },
+    mounted () {
+      this.getCates()
+    },
+    methods: {
+      getCates () {
+        this.$http.post('./category/getCates').then(data => {
+          this.categorys = {}
+          for (let cate of data.result) {
+            if (!this.cateId) this.cateId = cate._id
+            this.categorys[cate._id] = cate.name
+          }
+        })
       }
     }
   }
