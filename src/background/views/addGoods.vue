@@ -74,7 +74,7 @@
           this.categorys = {}
           for (let cate of data.result) {
             if (!this.cateId) this.cateId = cate._id
-            this.categorys[cate._id] = cate.name
+            this.$set(this.categorys, cate._id, cate.name)
           }
         })
       },
