@@ -32,10 +32,13 @@
     </div>
     <div class="row">
       <label for="">是否显示 :</label>
-      <i-switch size="large" v-model="isshow" class="switch">
+      <i-switch size="large" v-model="isShow" class="switch">
         <span slot="open">显示</span>
         <span slot="close">隐藏</span>
       </i-switch>
+    </div>
+    <div class="row">
+      <Button type="primary" @click="sure" size="large">确定</Button>
     </div>
   </div>
 </template>
@@ -52,7 +55,7 @@
         cateId: '',
         categorys: {},
         desc: '',
-        isshow: false,
+        isShow: true,
         ztList: [], // 主图
         tlList: [], // 商品图片
         ztUploadFiles: [],
@@ -73,6 +76,22 @@
             if (!this.cateId) this.cateId = cate._id
             this.categorys[cate._id] = cate.name
           }
+        })
+      },
+      sure () {
+        if (!this.name || !this.price || !this.desc || !this.ztUploadFiles.length || !this.tLUploadFiles.length) return this.$Message.error('请完整填写商品信息')
+        this.$http.post('./goods/addGoods', {
+          name: this.name,
+          price: this.price,
+          desc: this.desc,
+          cateId: this.cateId,
+          cateName: this.categorys[this.cateId],
+          isShow: this.isShow,
+          mainImg: this.ztUploadFiles.map(item => item.url).toString(),
+          prevImg: this.tLUploadFiles.map(item => item.url).toString()
+        }).then(data => {
+          if (data.code === -1) return this.$Message.error(data.msg)
+          this.$Message.success(data.msg)
         })
       }
     }
@@ -95,5 +114,12 @@
     & .switch{
       margin-left:20px;
     }
+    & button{
+      width: 200px;
+    }
+  }
+  .alignCenter{
+    text-align: center;
+    justify-content: center;
   }
 </style>
