@@ -36,8 +36,11 @@
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'error',
+                    type: 'text',
                     size: 'small'
+                  },
+                  style: {
+                    color: 'red'
                   },
                   on: {
                     click: () => {

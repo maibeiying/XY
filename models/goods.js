@@ -10,7 +10,7 @@ let goodsSchema = new mongoose.Schema({
     required: true
   },
   price: {
-    type: String,
+    type: Number,
     required: true
   },
   cateId: {
@@ -29,8 +29,8 @@ let goodsSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  isShow: {
-    type: Boolean,
+  isShow: { // 是否展示  {-1, 0, 1} {不限, 否, 是}
+    type: Number,
     required: true
   }
 }, {collection: 'goods'})

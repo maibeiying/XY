@@ -23,12 +23,12 @@ class Goods {
     let cateId = req.body.cateId || ''
     let isShow = req.body.isShow || ''
     let name = req.body.name || ''
-    let minPirce = req.body.minPrice || 0
-    let maxPirce = req.body.maxPirce || 99999
+    let minPirce = req.body.minPrice * 1 || 0
+    let maxPirce = req.body.maxPirce * 1 || 99999
     let pageSize = req.body.pageSize || 10
     let page = req.body.page
-    let result = await goodsModel.find({
-      cateId, 
+    /* let result = await goodsModel.find({
+       cateId,
       isShow,
       name: {
         $regex: name,
@@ -37,9 +37,11 @@ class Goods {
       price: {
         $gte: minPirce, 
         $lt: maxPirce
-      }
-    }).limit(pageSize).skip(page * pageSize)
-    res.json({result, code: 1})
+      } 
+    }).limit(pageSize).skip(page * pageSize) */
+    let count = await goodsModel.find({}).count()
+    let result = await goodsModel.find({}).sort({_id: -1})
+    res.json({result, count, code: 1})
   }
 
   // 删除分类

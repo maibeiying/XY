@@ -11,7 +11,7 @@
     <div class="row">
       <label>商品分类 :</label>
       <Select v-model="cateId" class="f-r">
-        <Option :value="key" v-for="(val, key) in categorys">{{val}}</Option>
+        <Option :value="key" v-for="(val, key) in categorys" :key="key">{{val}}</Option>
       </Select>
     </div>
     <div class="row">

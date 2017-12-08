@@ -7,22 +7,26 @@
       </div>
       <div class="col flex">
         <label>商品价格 :</label>
-        <Select v-model="cateId" class="f-r">
-          <Option :value="key" v-for="(val, key) in categorys">{{val}}</Option>
+        <Select v-model="pirce" class="f-r">
+          <Option value="0">不限</Option>
+          <Option value="0,25">0 - 25</Option>
+          <Option value="25,50">25 - 50</Option>
+          <Option value="50,100">50 - 100</Option>
+          <Option value="100+">100以上</Option>
         </Select>
       </div>
       <div class="col flex">
         <label>商品分类 :</label>
         <Select v-model="cateId" class="f-r">
-          <Option :value="key" v-for="(val, key) in categorys">{{val}}</Option>
+          <Option :value="key" v-for="(val, key) in categorys" :key="key">{{val}}</Option>
         </Select>
       </div>
       <div class="col flex">
         <label>是否显示 :</label>
         <Select v-model="isShow" class="f-r">
-          <Option value="0">全部</Option>
-          <Option :value="true">是</Option>
-          <Option :value="false">否</Option>
+          <Option :value="-1">全部</Option>
+          <Option :value="1">是</Option>
+          <Option :value="0">否</Option>
         </Select>
       </div>
       <div class="col">
@@ -39,11 +43,18 @@
       return {
         categorys: {},
         cateId: '0',
-        isShow: '0',
+        isShow: -1,
         columns: [
           {
             title: '主图',
-            key: 'mainImg'
+            key: 'mainImg',
+            render (h, params) {
+              return h('Img', {
+                props: {
+                  src: params.row.mainImg
+                }
+              }, '')
+            }
           },
           {
             title: '名称',
@@ -55,11 +66,11 @@
           },
           {
             title: '描述',
-            key: 'pirce'
+            key: 'desc'
           },
           {
             title: '所属分类',
-            key: 'pirce'
+            key: 'cateName'
           },
           {
             title: '操作',
@@ -70,8 +81,22 @@
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'error',
+                    type: 'text',
                     size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.update(params.index, params.row)
+                    }
+                  }
+                }, '修改'),
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  style: {
+                    color: 'red'
                   },
                   on: {
                     click: () => {
@@ -86,7 +111,10 @@
         tableData: [],
         loading: false,
         name: '',
-        pirce: ''
+        pirce: '0',
+        page: 1,
+        pageSize: 10,
+        count: 0
       }
     },
     mounted () {
@@ -107,11 +135,17 @@
           name: this.name,
           price: this.price,
           cateId: this.cateId,
-          isShow: this.isShow
+          isShow: this.isShow,
+          page: this.page,
+          pageSize: this.pageSize
         }).then(data => {
-          console.log(data)
+          if (data.code === -1) return this.$Message.error(data.msg)
+          this.count = data.count
+          this.tableData = data.result
         })
-      }
+      },
+      update () {},
+      remove () {}
     }
   }
 </script>
@@ -124,6 +158,7 @@
   }
   .col{
     flex:1;
+    max-width:200px;
   }
   .flex{
     display:flex;
