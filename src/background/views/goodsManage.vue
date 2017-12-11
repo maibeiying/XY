@@ -50,7 +50,7 @@
             key: 'mainImg',
             render (h, params) {
               return h('Img', {
-                props: {
+                attrs: {
                   src: params.row.mainImg
                 }
               }, '')
