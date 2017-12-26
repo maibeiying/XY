@@ -30,7 +30,7 @@
         <Icon type="camera" size="20"></Icon>
       </div>
     </Upload>
-    <Modal title="View Image" v-model="visible">
+    <Modal title="查看图片" v-model="visible">
       <img :src="imgUrl" v-if="visible" style="width: 100%">
     </Modal>
   </div>
@@ -71,6 +71,11 @@
     watch: {
       uploadList () {
         this.$emit('update:uploadFiles', this.uploadList)
+      },
+      defaultList () {
+        this.$nextTick(() => {
+          this.uploadList = this.$refs.upload.fileList
+        })
       }
     }
   }
@@ -88,7 +93,7 @@
     background: #fff;
     position: relative;
     box-shadow: 0 1px 1px rgba(0,0,0,.2);
-    margin-right: 4px;
+    margin: 0 4px 4px 0;
   }
   .upload-list img{
     max-width: 100%;

@@ -66,6 +66,7 @@
     },
     methods: {
       remove (index, row) {
+        if (row.count) return this.$Message.warning('不能删除含有商品的分类')
         this.$http.post('./category/removeCate', {
           _id: row._id
         }).then(data => {

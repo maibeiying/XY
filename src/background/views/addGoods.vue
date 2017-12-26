@@ -56,6 +56,7 @@
         categorys: {},
         desc: '',
         isShow: true,
+        goodsId: '',
         ztList: [], // 主图
         tlList: [], // 商品图片
         ztUploadFiles: [],
@@ -63,12 +64,39 @@
       }
     },
     created () {
-
+      let goodsMatchId = location.href.match(/.??id=(.*)/)
+      if (goodsMatchId) {
+        this.goodsId = goodsMatchId[1]
+        this.queryGoods({id: this.goodsId})
+      }
     },
     mounted () {
       this.getCates()
     },
     methods: {
+      queryGoods (params) {
+        this.$http.post('./goods/queryGoods', params).then(data => {
+          if (data.code !== 1) return this.$Message.error('获取商品信息失败')
+          let goods = data.result[0]
+          this.price = goods.price
+          this.cateId = goods.cateId
+          this.name = goods.name
+          this.isShow = goods.isShow === 1
+          this.ztList = [{
+            name: goods.mainImg.split('/').pop(),
+            url: goods.mainImg,
+            status: 'finished'
+          }]
+          this.tlList = goods.prevImg.split(',').map(item => {
+            return {
+              name: item.split('/').pop(),
+              url: item,
+              status: 'finished'
+            }
+          })
+          this.desc = goods.desc
+        })
+      },
       getCates () {
         this.$http.post('./category/getCates').then(data => {
           this.categorys = {}
@@ -79,8 +107,8 @@
         })
       },
       sure () {
-        if (!this.name || !this.price || !this.desc || !this.ztUploadFiles.length || !this.tLUploadFiles.length) return this.$Message.error('请完整填写商品信息')
-        this.$http.post('./goods/addGoods', {
+        let url = './goods/addGoods'
+        let options = {
           name: this.name,
           price: this.price,
           desc: this.desc,
@@ -89,9 +117,16 @@
           isShow: this.isShow,
           mainImg: this.ztUploadFiles.map(item => item.url).toString(),
           prevImg: this.tLUploadFiles.map(item => item.url).toString()
-        }).then(data => {
+        }
+        if (!this.name || !this.price || !this.desc || !this.ztUploadFiles.length || !this.tLUploadFiles.length) return this.$Message.error('请完整填写商品信息')
+        if (this.goodsId) {
+          url = './goods/updateGoods'
+          options.id = this.goodsId
+        }
+        this.$http.post(url, options).then(data => {
           if (data.code === -1) return this.$Message.error(data.msg)
           this.$Message.success(data.msg)
+          this.$router.push('goodsManage')
         })
       }
     }
@@ -110,6 +145,7 @@
     }
     & .upload-wrap{
       margin-left:20px;
+      flex:1;
     }
     & .switch{
       margin-left:20px;
