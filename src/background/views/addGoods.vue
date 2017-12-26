@@ -37,7 +37,7 @@
         <span slot="close">隐藏</span>
       </i-switch>
     </div>
-    <div class="row">
+    <div class="row alignCenter">
       <Button type="primary" @click="sure" size="large">确定</Button>
     </div>
   </div>

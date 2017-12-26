@@ -125,7 +125,7 @@
                     size: 'small'
                   },
                   style: {
-                    color: 'red'
+                    color: '#ff9900'
                   },
                   on: {
                     click: () => {
