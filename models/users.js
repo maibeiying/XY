@@ -15,7 +15,7 @@ let userSchema = new mongoose.Schema({
     type: String
   },
   logindate: {
-    type: String
+    type: Date
   },
   device: {
     type: String,

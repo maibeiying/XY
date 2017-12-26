@@ -29,7 +29,7 @@ let goodsSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  isShow: { // 是否展示  {-1, 0, 1} {不限, 否, 是}
+  isShow: { // 是否展示  {'', 0, 1} {不限, 否, 是}
     type: Number,
     required: true
   }
