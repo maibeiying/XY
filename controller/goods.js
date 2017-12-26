@@ -45,7 +45,7 @@ class Goods {
       }
     }
     if (cateId !== ' ' && cateId) sql.cateId = cateId
-    if (isShow && isShow !== ' ') sql.isShow = isShow
+    if (isShow && isShow !== ' ' || isShow * 1 === 0) sql.isShow = isShow
     let count = await goodsModel.find(sql).count()
     let result = await goodsModel.find(sql).sort({_id: -1}).limit(pageSize).skip(page * pageSize)
     res.json({result, count, code: 1})

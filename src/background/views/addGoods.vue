@@ -76,7 +76,7 @@
     methods: {
       queryGoods (params) {
         this.$http.post('./goods/queryGoods', params).then(data => {
-          if (data.code !== 1) return this.$Message.error('获取商品信息失败')
+          if (data.code !== 1 || !data.result.length) return this.$Message.error('获取商品信息失败')
           let goods = data.result[0]
           this.price = goods.price
           this.cateId = goods.cateId
