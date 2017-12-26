@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "supervisor -i static ./bin/XY",
+    "start": "node ./bin/XY",
     "build": "webpack -p --hide-modules --progress --config build/webpack.prod.conf"
   },
   "dependencies": {
