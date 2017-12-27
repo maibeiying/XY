@@ -1,4 +1,5 @@
 const userModel = require('../models/users')
+const randomName = require('chinese-random-name')
 // const response = require('../routes/response')
 
 class User {
@@ -22,23 +23,47 @@ class User {
     let uty = req.query.uty
     let pageSize = req.query.pageSize * 1
     let page = req.query.page * 1 - 1
-    let query = userModel.find({uty})
-    let count = await query.count()
-    let result = await userModel.find({uty}).skip(page * pageSize).limit(pageSize).sort({'logindate': -1})
+    let sql = {}
+    if (uty !== 'all') sql.uty = uty
+    let count = await userModel.find(sql).count()
+    let result = await userModel.find(sql).skip(page * pageSize).limit(pageSize).sort({'logindate': -1})
     res.json({result, code: 1, count})
   }
   // 添加用户
   async addUser (req, res) {
     let username = req.body.username
     let userpwd = req.body.userpwd || '123456'
-    let uty = req.body.uty || 1
-    let logindate = new Date().toLocaleString()
+    let uty = req.body.uty
+    let logindate = new Date()
     let result = await userModel.findOne({username})
     if (result) return res.json({msg: '已存在该用户', code: -1})
     userModel.create({username, userpwd, logindate, uty}, (err, result) => {
       if (err) return res.json({msg: err.message, code: -1})
       res.json({msg: '添加成功', code: 1})
     })
+  }
+  // 随机生成用户
+  async addRanUsers (req, res) {
+    let count = req.body.userNumber * 1
+    let uty = req.body.uty
+    let userpwd = '123456'
+    let logindate = new Date()
+    let list = []
+    try {
+      for (let i = 0; i < count; i++) {
+        let name = randomName.names.get3()
+        list.push({
+          name,
+          uty,
+          userpwd,
+          logindate
+        })
+      }
+      await userModel.create(list[0])
+    } catch (e) {
+      res.json({code: -1, msg: '生成用户数据失败'})
+    }
+    res.json({result: list, msg: `共生成${list.length}条用户数据`, code: 1})
   }
   // 删除用户
   removeUser (req, res) {

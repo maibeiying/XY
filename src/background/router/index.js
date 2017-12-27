@@ -3,8 +3,8 @@ import Router from 'vue-router'
 const login = () => import('../views/login.vue') // 登录
 const home = () => import('../views/home.vue') // 首页
 const goodsManage = () => import('../views/goodsManage.vue') // 商品管理
-const custom = () => import('../views/custom.vue') // 客户管理
-const manager = () => import('../views/manager.vue') // 管理员管理
+// const custom = () => import('../views/custom.vue') // 客户管理
+const user = () => import('../views/user.vue') // 用户管理
 const siteView = () => import('../views/siteView.vue') // 访问量
 const userFb = () => import('../views/userFb.vue') // 用户分布
 const banner = () => import('../views/banner.vue') // 广告管理
@@ -39,13 +39,9 @@ export default new Router({
           name: 'userFb',
           component: userFb
         }, {
-          path: 'custom',
-          name: 'custom',
-          component: custom
-        }, {
-          path: 'manager',
-          name: 'manager',
-          component: manager
+          path: 'user',
+          name: 'user',
+          component: user
         }, {
           path: 'goodsManage',
           name: 'goodsManage',

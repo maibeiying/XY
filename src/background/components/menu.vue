@@ -17,11 +17,8 @@
         <Icon type="person-stalker" size="20"></Icon>
         用户管理
       </template>
-      <MenuItem name="custom">
-        <router-link to="/home/custom">客户</router-link>
-      </MenuItem>
-      <MenuItem name="manager">
-        <router-link to="/home/manager">管理员</router-link>
+      <MenuItem name="user">
+        <router-link to="/home/user">用户</router-link>
       </MenuItem>
     </Submenu>
     <Submenu name="goods">

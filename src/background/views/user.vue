@@ -1,16 +1,29 @@
 <template>
   <div>
-    <div class="clearfix">
-      <Button type="primary" class="addUser" @click="dialog=true">添加管理员</Button>
+    <div class="search-bar row">
+      <div class="col flex">
+        <label>角色 :</label>
+        <Select v-model="uty" class="selector">
+          <Option value="all">不限</Option>
+          <Option value="0">超级管理员</Option>
+          <Option value="1">普通管理员</Option>
+          <Option value="2">客户</Option>
+          <Option value="3">随机客户</Option>
+        </Select>
+      </div>
+      <div class="col">
+        <Button type="primary" class="search-btn" @click="getUsers">搜索</Button>
+        <Button type="primary" class="search-btn" @click="dialog=true">生成用户</Button>
+      </div>
     </div>
     <Table border :loading="loading" :columns="columns" :data="tableData"></Table>
     <Page :total="count" :current.sync="page" size="small" :page-size="pageSize"></Page>
     <Modal
         v-model="dialog"
-        title="添加用户"
-        @on-ok="addUser"
+        title="生成用户"
+        @on-ok="addRanUsers"
         @on-cancel="dialog=false">
-        <Input placeholder="输入名称" v-model.trim="username" autofocus @on-enter="addUser"></Input>
+        <Input placeholder="输入用户个数" v-model="userNumber" autofocus @on-enter="addRanUsers"></Input>
     </Modal>
   </div>
 </template>
@@ -26,6 +39,19 @@
           {
             title: '密码',
             key: 'userpwd'
+          },
+          {
+            title: '角色',
+            key: 'uty',
+            render: (h, params) => {
+              let uty = params.row.uty * 1
+              let name = null
+              if (uty === 0) name = '超级管理员'
+              if (uty === 1) name = '普通管理员'
+              if (uty === 2) name = '客户'
+              if (uty === 3) name = '随机客户'
+              return name
+            }
           },
           {
             title: '登录时间',
@@ -59,7 +85,8 @@
         tableData: [],
         loading: false,
         dialog: false,
-        username: '',
+        userNumber: 10,
+        uty: 'all',
         page: 1,
         pageSize: 10,
         count: 0
@@ -81,31 +108,29 @@
           }
         })
       },
-      addUser () {
-        if (!this.username) return this.$Message.warning('名称不能为空')
-        this.$http.post('./user/addUser', {
-          username: this.username
+      addRanUsers () {
+        if (!this.userNumber || isNaN(this.userNumber * 1)) return this.$Message.warning('请输入合法数字')
+        this.$http.post('./user/addRanUsers', {
+          userNumber: this.userNumber,
+          uty: '3'
         }).then(data => {
           this.dialog = false
-          if (data.code === 1) {
-            this.$Message.success(data.msg)
-            this.username = ''
-            this.getUsers()
-          } else {
-            this.$Message.error('添加失败')
-          }
+          if (data.code === -1) return this.$Message.error(data.msg)
+          this.$Message.success(data.msg)
+          this.userNumber = 0
+          this.getUsers()
         })
       },
       getUsers () {
-        // this.loading = true
+        this.loading = true
         this.$http.get('./user/getUsers', {
           params: {
-            uty: 1,
+            uty: this.uty,
             page: this.page,
             pageSize: this.pageSize
           }
         }).then(data => {
-          // this.loading = false
+          this.loading = false
           this.tableData = data.result
           this.count = data.count
           for (let row of this.tableData) {
@@ -128,12 +153,27 @@
   }
 </script>
 <style scoped>
-  .addUser{
-    float:right;
+  .search-bar{
     margin-bottom:20px;
+  }
+  .row{
+    display:flex;
+  }
+  .col{
+    margin-right:20px;
+  }
+  .selector{
+    width:100px;
   }
   .flex{
     display:flex;
-    align-items:center;
+    margin-right:20px;
+    align-items: center;
+    & label{
+      min-width:60px;
+    }
+  }
+  .search-btn{
+    min-width:100px;
   }
 </style>

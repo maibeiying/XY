@@ -4,10 +4,13 @@ class Evaluate {
   constructor () {}
   // 添加评价
   addEvaluate (req, res) {
-    let evaluate = req.body.evaluate
+    let desc = req.body.desc
     let goodsId = req.body.goodsId
+    let goodsName = req.body.goodsName
+    let grade = req.body.grade
+    let user = req.body.user
     let time = new Date()
-    evaluateModel.create({goodsId, evaluate, time}, (err, result) => {
+    evaluateModel.create({goodsId, goodsName, user, desc, grade, time}, (err, result) => {
       if (err) return res.json({msg: err.message, code: -1})
       res.json({msg: '添加成功', code: 1})
     })

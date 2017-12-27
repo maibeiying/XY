@@ -25,6 +25,13 @@
       <div class="row">
         <Input v-model.trim="registerPwd" placeholder="请输入密码"></Input>
       </div>
+      <div class="row js">
+        <label>角色 :</label>
+        <Select v-model="uty" class="f-r">
+          <Option value="0">超级管理员</Option>
+          <Option value="1">普通管理员</Option>
+        </Select>
+      </div>
     </Modal>
   </div>
 </template>
@@ -36,6 +43,7 @@
         userpwd: '123456',
         registerName: '',
         registerPwd: '',
+        uty: '0',
         isShow: false
       }
     },
@@ -61,9 +69,9 @@
         this.$http.post('./user/addUser', {
           username: this.registerName,
           userpwd: this.registerPwd,
-          uty: '0'
+          uty: this.uty
         }).then(data => {
-          this.$Message.error(data.msg)
+          this.$Message.success(data.msg)
         })
       }
     }
@@ -81,6 +89,15 @@
     text-align:center;
     & span{
       cursor:pointer;
+    }
+  }
+  .js{
+    display:flex;
+    align-items:center;
+    & .f-r{
+      width:100px;
+      flex:1;
+      margin-left:20px;
     }
   }
 </style>

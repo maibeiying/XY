@@ -11,6 +11,9 @@ router.get('/getUsers', user.getUsers)
 // 添加用户
 router.post('/addUser', user.addUser)
 
+// 随机生成用户
+router.post('/addRanUsers', user.addRanUsers.bind(user))
+
 // 删除用户
 router.post('/removeUser', user.removeUser)
 

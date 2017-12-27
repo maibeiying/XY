@@ -3,8 +3,6 @@ const db = require('../mongodb/db')
 let userSchema = new mongoose.Schema({
   username: {
     type: String,
-    index: true,
-    unique: true,
     required: true
   },
   /* userid: {
@@ -21,7 +19,7 @@ let userSchema = new mongoose.Schema({
     type: String,
     default: 'pc'
   },
-  uty: { // 0：超级管理员 1：普通管理员 2：客户
+  uty: { // {0, 1, 2, 3} => {超级管理员, 普通管理员, 真实客户, 随机生成的客户}
     type: String,
     index: true
   }

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const db = require('../mongodb/db')
 let evaluate = new mongoose.Schema({
+  // 商品id
   goodsId: {
     type: String,
     index: {
@@ -8,9 +9,23 @@ let evaluate = new mongoose.Schema({
     },
     required: true
   },
-  evaluate: {
+  // 商品名称
+  goodsName: {
     type: String
   },
+  // 评价内容
+  desc: {
+    type: String
+  },
+  // 评分
+  grade: {
+    type: Number
+  },
+  // 评价人
+  user: {
+    type: String
+  },
+  // 评价时间
   time: {
     type: Date
   }

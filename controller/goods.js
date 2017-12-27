@@ -37,15 +37,15 @@ class Goods {
         $options: 'g'
       }
     }
-    if (price && price !== ' ') {
+    if (price && price !== 'all') {
       price = price.split(',')
       sql.price = {
         $gte: price[0], 
         $lt: price[1]
       }
     }
-    if (cateId !== ' ' && cateId) sql.cateId = cateId
-    if (isShow && isShow !== ' ' || isShow === 0) sql.isShow = isShow
+    if (cateId !== 'all' && cateId) sql.cateId = cateId
+    if (isShow && isShow !== 'all' || isShow === 0) sql.isShow = isShow
     let count = await goodsModel.find(sql).count()
     let result = await goodsModel.find(sql).sort({_id: -1}).limit(pageSize).skip(page * pageSize)
     res.json({result, count, code: 1})
