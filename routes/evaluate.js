@@ -6,7 +6,7 @@ const evaluate = require('../controller/evaluate')
 router.post('/addEvaluate', evaluate.addEvaluate)
 
 // 获取评价列表
-router.post('/getEvaluates', evaluate.getEvaluates)
+router.post('/queryEvaluates', evaluate.queryEvaluates)
 
 // 删除分类
 router.post('/removeEvaluate', evaluate.removeEvaluate)

@@ -19,11 +19,12 @@ class User {
     }
   }
   // 获取用户信息
-  async getUsers (req, res) {
+  async queryUsers (req, res) {
     let uty = req.query.uty
     let pageSize = req.query.pageSize * 1
     let page = req.query.page * 1 - 1
-    let sql = {}
+    let username = req.session.user && req.session.user.username
+    let sql = {username: {$ne: username}}
     if (uty !== 'all') sql.uty = uty
     let count = await userModel.find(sql).count()
     let result = await userModel.find(sql).skip(page * pageSize).limit(pageSize).sort({'logindate': -1})
@@ -38,7 +39,13 @@ class User {
     let result = await userModel.findOne({username})
     if (result) return res.json({msg: '已存在该用户', code: -1})
     userModel.create({username, userpwd, logindate, uty}, (err, result) => {
-      if (err) return res.json({msg: err.message, code: -1})
+      if (err) return res.json({msg: '添加失败', code: -1})
+      req.session.user = {
+        username,
+        userpwd,
+        uty,
+        logindate
+      }
       res.json({msg: '添加成功', code: 1})
     })
   }
@@ -51,15 +58,21 @@ class User {
     let list = []
     try {
       for (let i = 0; i < count; i++) {
-        let name = randomName.names.get3()
+        let random = Math.random()
+        let username = null
+        if (random > .5) {
+          username = `xy13${Math.ceil(Math.random() * 899999999 + 100000000)}`
+        } else {
+          username = randomName.names.get3()
+        }
         list.push({
-          name,
+          username,
           uty,
           userpwd,
           logindate
         })
       }
-      await userModel.create(list[0])
+      await userModel.create(list)
     } catch (e) {
       res.json({code: -1, msg: '生成用户数据失败'})
     }

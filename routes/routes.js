@@ -11,11 +11,15 @@ function router (app) {
   // 商品
   const goods = require('./goods')
 
+  // 评价
+  const evaluate = require('./evaluate')
+
   app.use('/', common)
   app.use('/user', user)
   app.use('/category', category)
   app.use('/upload', upload)
   app.use('/goods', goods)
+  app.use('/evaluate', evaluate)
 }
 
 module.exports = router

@@ -29,6 +29,7 @@ class Goods {
     let price = req.body.price
     let pageSize = req.body.pageSize || 10
     let page = req.body.page * 1 - 1
+    let getAll = req.body.getAll
     let sql = {}
     if (id) sql._id = id
     if (name) {
@@ -46,6 +47,7 @@ class Goods {
     }
     if (cateId !== 'all' && cateId) sql.cateId = cateId
     if (isShow && isShow !== 'all' || isShow === 0) sql.isShow = isShow
+    if (getAll) sql = {}
     let count = await goodsModel.find(sql).count()
     let result = await goodsModel.find(sql).sort({_id: -1}).limit(pageSize).skip(page * pageSize)
     res.json({result, count, code: 1})

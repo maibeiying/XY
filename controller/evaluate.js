@@ -8,20 +8,30 @@ class Evaluate {
     let goodsId = req.body.goodsId
     let goodsName = req.body.goodsName
     let grade = req.body.grade
-    let user = req.body.user
+    let userId = req.body.userId
     let time = new Date()
-    evaluateModel.create({goodsId, goodsName, user, desc, grade, time}, (err, result) => {
+    evaluateModel.create({goodsId, userId, desc, grade, time}, (err, result) => {
       if (err) return res.json({msg: err.message, code: -1})
       res.json({msg: '添加成功', code: 1})
     })
   }
 
   // 获取评价
-  async getEvaluates (req, res) {
-    let goodsId = req.body.goodsId
+  async queryEvaluates (req, res) {
+    let goodsName = req.body.goodsName
+    let grade = req.body.grade
     let time = req.body.time
     let sql = {}
-    if (goodsId) sql.goodsId = goodsId
+    if (goodsName) sql.goodsName = {
+      $regex: goodsName,
+      $options: 'g'
+    }
+    if (grade !== 'all') sql.grade = grade * 1
+    if (time === 'day') {
+      sql.time = {
+        $gte: new Date()
+      }
+    }
     let result = await evaluateModel.find(sql)
     res.json({result, code: 1})
   }

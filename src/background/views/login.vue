@@ -71,7 +71,9 @@
           userpwd: this.registerPwd,
           uty: this.uty
         }).then(data => {
+          if (data.code === -1) return this.$Message.error(data.msg)
           this.$Message.success(data.msg)
+          this.$router.push('home')
         })
       }
     }

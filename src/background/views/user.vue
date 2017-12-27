@@ -7,12 +7,12 @@
           <Option value="all">不限</Option>
           <Option value="0">超级管理员</Option>
           <Option value="1">普通管理员</Option>
-          <Option value="2">客户</Option>
-          <Option value="3">随机客户</Option>
+          <Option value="2">用户</Option>
+          <Option value="3">随机用户</Option>
         </Select>
       </div>
       <div class="col">
-        <Button type="primary" class="search-btn" @click="getUsers">搜索</Button>
+        <Button type="primary" class="search-btn" @click="queryUsers">搜索</Button>
         <Button type="primary" class="search-btn" @click="dialog=true">生成用户</Button>
       </div>
     </div>
@@ -48,8 +48,8 @@
               let name = null
               if (uty === 0) name = '超级管理员'
               if (uty === 1) name = '普通管理员'
-              if (uty === 2) name = '客户'
-              if (uty === 3) name = '随机客户'
+              if (uty === 2) name = '用户'
+              if (uty === 3) name = '随机用户'
               return name
             }
           },
@@ -93,7 +93,7 @@
       }
     },
     mounted () {
-      this.getUsers()
+      this.queryUsers()
     },
     methods: {
       remove (index, row) {
@@ -102,7 +102,7 @@
         }).then(data => {
           if (data.code === 1) {
             this.$Message.success(data.msg)
-            this.getUsers()
+            this.queryUsers()
           } else {
             this.$Message.error('删除失败')
           }
@@ -117,20 +117,20 @@
           this.dialog = false
           if (data.code === -1) return this.$Message.error(data.msg)
           this.$Message.success(data.msg)
-          this.userNumber = 0
-          this.getUsers()
+          this.userNumber = 10
+          this.queryUsers()
         })
       },
-      getUsers () {
-        this.loading = true
-        this.$http.get('./user/getUsers', {
+      queryUsers () {
+        // this.loading = true
+        this.$http.get('./user/queryUsers', {
           params: {
             uty: this.uty,
             page: this.page,
             pageSize: this.pageSize
           }
         }).then(data => {
-          this.loading = false
+          // this.loading = false
           this.tableData = data.result
           this.count = data.count
           for (let row of this.tableData) {
@@ -147,7 +147,7 @@
     },
     watch: {
       page () {
-        this.getUsers()
+        this.queryUsers()
       }
     }
   }
@@ -175,5 +175,6 @@
   }
   .search-btn{
     min-width:100px;
+    margin-right:20px;
   }
 </style>

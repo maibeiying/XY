@@ -6,13 +6,13 @@ const user = require('../controller/user')
 router.post('/login', user.login)
 
 // 获取用户数据
-router.get('/getUsers', user.getUsers)
+router.get('/queryUsers', user.queryUsers)
 
 // 添加用户
 router.post('/addUser', user.addUser)
 
 // 随机生成用户
-router.post('/addRanUsers', user.addRanUsers.bind(user))
+router.post('/addRanUsers', user.addRanUsers)
 
 // 删除用户
 router.post('/removeUser', user.removeUser)

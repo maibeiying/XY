@@ -21,8 +21,8 @@ let evaluate = new mongoose.Schema({
   grade: {
     type: Number
   },
-  // 评价人
-  user: {
+  // 评价人id
+  userId: {
     type: String
   },
   // 评价时间
