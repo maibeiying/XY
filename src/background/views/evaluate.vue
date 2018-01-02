@@ -2,10 +2,6 @@
   <div class="goods-manage">
     <div class="search-bar row">
       <div class="col flex">
-        <label>商品名称 :</label>
-        <Input v-model.trim="goodsName" placeholder="名称"></Input>
-      </div>
-      <div class="col flex">
         <label>评价时间 :</label>
         <Select v-model="time" class="f-r">
           <Option value="all">不限</Option>
@@ -27,10 +23,13 @@
         </Select>
       </div>
       <div class="btns">
-        <Button type="primary" class="search-btn" @click="getEvaluates">搜索</Button>
+        <Button type="primary" class="search-btn" @click="queryEvaluates">搜索</Button>
         <Button type="primary" class="search-btn" @click="dialog=true">添加评价</Button>
       </div>
     </div>
+    <p class="title">
+      <label>商品名称 : </label>啊手动阀
+    </p>
     <Table border :loading="loading" :columns="columns" :data="tableData"></Table>
     <Page :total="count" :current.sync="page" size="small" :page-size="pageSize"></Page>
     <Modal
@@ -51,6 +50,7 @@
       <div class="row">
         <label>评价用户 :</label>
         <Select v-model="userId" class="f-r">
+          <Option :value="item._id" v-for="item in userList">{{item.username}}</Option>
         </Select>
       </div>
       <div class="row">
@@ -74,6 +74,7 @@
         goodsId: '',
         goodsList: [],
         userId: '',
+        userList: [],
         desc: '',
         rate: 0,
         time: 'all',
@@ -138,32 +139,32 @@
       }
     },
     mounted () {
-      this.getEvaluates()
-      this.queryGoods()
+      this.goodsId = location.href.replace(/.*id=(.*)/, '$1')
+      this.queryEvaluates()
       this.queryUsers()
     },
     methods: {
-      getEvaluates () {
+      queryEvaluates () {
         this.$http.post('./evaluate/queryEvaluates', {
-          goodsName: this.goodsName,
-          time: this.time,
-          grade: this.grade
+          goodsId: this.goodsId,
+          grade: this.grade,
+          time: this.time
         }).then(data => {
           if (data.code === -1) return this.$Message.error(data.msg)
         })
       },
-      queryGoods () {
-        this.$http.post('./goods/queryGoods', {
-          getAll: 1
+      queryUsers () {
+        this.$http.post('./user/queryUsers', {
+          uty: 3
         }).then(data => {
           if (data.code === -1) return this.$Message.error(data.msg)
-          this.goodsList = data.result
-          this.goodsId = this.goodsList[0]._id
+          this.userList = data.result
+          this.userId = this.userList[0] && this.userList[0]._id
         })
       },
       addEvaluate () {
         this.$http.post('./evaluate/addEvaluate', {
-
+          goodsId: ''
         })
       }
     }
@@ -198,8 +199,19 @@
   }
   .btns button{
     margin-right:20px;
+    &:last-child{
+      margin:0;
+    };
   }
   .search-btn{
     min-width:100px;
+  }
+  .title{
+    font-size:14px;
+    color:#333;
+    margin-bottom:15px;
+    & label{
+      color:#666;
+    }
   }
 </style>

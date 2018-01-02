@@ -98,16 +98,35 @@
             key: 'desc'
           },
           {
-            title: '所属分类',
+            title: '分类',
             key: 'cateName'
+          },
+          {
+            title: '评分',
+            key: 'evaluate'
           },
           {
             title: '操作',
             key: 'action',
-            width: 150,
+            // width: 150,
             align: 'center',
             render: (h, params) => {
-              return h('div', [
+              return h('div', {
+                style: {
+                  display: 'flex'
+                }
+              }, [
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.evaluate(params.index, params.row)
+                    }
+                  }
+                }, '评价'),
                 h('Button', {
                   props: {
                     type: 'text',
@@ -165,6 +184,9 @@
           this.count = data.count
           this.tableData = data.result
         })
+      },
+      evaluate (index, row) {
+        this.$router.push({path: 'evaluate', query: {id: row._id, name: row.name}})
       },
       update (index, row) {
         this.$router.push({path: 'addGoods', query: {id: row._id}})

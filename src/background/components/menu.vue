@@ -54,7 +54,7 @@
         <router-link to="/home/category">商品分类</router-link>
       </MenuItem>
     </Submenu>
-    <Submenu name="evaluateManger">
+    <!-- <Submenu name="evaluateManger">
       <template slot="title">
         <Icon type="pricetags" size="20"></Icon>
         <span>评价管理</span>
@@ -62,7 +62,7 @@
       <MenuItem name="evaluate">
         <router-link to="/home/evaluate">评价列表</router-link>
       </MenuItem>
-    </Submenu>
+    </Submenu> -->
 </Menu>
 </template>
 <script>

@@ -20,9 +20,9 @@ class User {
   }
   // 获取用户信息
   async queryUsers (req, res) {
-    let uty = req.query.uty
-    let pageSize = req.query.pageSize * 1
-    let page = req.query.page * 1 - 1
+    let uty = req.body.uty
+    let pageSize = req.body.pageSize * 1
+    let page = req.body.page * 1 - 1
     let username = req.session.user && req.session.user.username
     let sql = {username: {$ne: username}}
     if (uty !== 'all') sql.uty = uty
@@ -60,11 +60,12 @@ class User {
       for (let i = 0; i < count; i++) {
         let random = Math.random()
         let username = null
-        if (random > .5) {
+        username = `xy13${Math.ceil(Math.random() * 899999999 + 100000000)}`
+        /* if (random > .5) {
           username = `xy13${Math.ceil(Math.random() * 899999999 + 100000000)}`
         } else {
           username = randomName.names.get3()
-        }
+        } */
         list.push({
           username,
           uty,

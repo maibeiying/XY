@@ -1,7 +1,7 @@
 <template>
   <header v-once>
     <h1>
-      XY体验社
+      XY
     </h1>
   </header>
 </template>

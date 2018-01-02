@@ -18,22 +18,19 @@ class Evaluate {
 
   // 获取评价
   async queryEvaluates (req, res) {
-    let goodsName = req.body.goodsName
     let grade = req.body.grade
     let time = req.body.time
-    let sql = {}
-    if (goodsName) sql.goodsName = {
-      $regex: goodsName,
-      $options: 'g'
-    }
+    let goodsId = req.body.goodsId
+    let sql = {goodsId}
     if (grade !== 'all') sql.grade = grade * 1
     if (time === 'day') {
       sql.time = {
         $gte: new Date()
       }
     }
+    let count = await evaluateModel.find(sql).count()
     let result = await evaluateModel.find(sql)
-    res.json({result, code: 1})
+    res.json({result, count, code: 1})
   }
 
   // 删除评价

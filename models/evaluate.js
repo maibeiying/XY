@@ -30,6 +30,6 @@ let evaluate = new mongoose.Schema({
     type: Date
   }
 })
-let cateModel = db.model('evaluate', evaluate)
+let evaluateModel = db.model('evaluate', evaluate)
 // cateSchema.path('catename').index({ unique: true });
-module.exports = evaluate
+module.exports = evaluateModel

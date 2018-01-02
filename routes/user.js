@@ -6,7 +6,7 @@ const user = require('../controller/user')
 router.post('/login', user.login)
 
 // 获取用户数据
-router.get('/queryUsers', user.queryUsers)
+router.post('/queryUsers', user.queryUsers)
 
 // 添加用户
 router.post('/addUser', user.addUser)

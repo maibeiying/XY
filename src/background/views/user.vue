@@ -123,12 +123,10 @@
       },
       queryUsers () {
         // this.loading = true
-        this.$http.get('./user/queryUsers', {
-          params: {
-            uty: this.uty,
-            page: this.page,
-            pageSize: this.pageSize
-          }
+        this.$http.post('./user/queryUsers', {
+          uty: this.uty,
+          page: this.page,
+          pageSize: this.pageSize
         }).then(data => {
           // this.loading = false
           this.tableData = data.result

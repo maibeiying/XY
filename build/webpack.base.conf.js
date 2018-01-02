@@ -141,7 +141,7 @@ module.exports = {
       // loaders: [ 'vue-style-loader', 'css-loader', 'postcss-loader', 'css-hot-loader']
     }),*/
     new HtmlWebpackPlugin({
-      title: 'XY体验社',
+      title: 'XY',
       alwaysWriteToDisk: true,
       template: './views/background.html',
       filename: 'background.html',
