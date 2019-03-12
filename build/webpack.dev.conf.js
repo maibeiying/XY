@@ -4,6 +4,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const hotMiddlewareScript = 'webpack-hot-middleware/client?path=__webpack_hmr'
 
 module.exports = merge(baseWebpackConfig, {
+  mode: 'development',
   entry: {
     // 'front': [hotMiddlewareScript, './src/front/app.js'],
     'background': [hotMiddlewareScript, './src/background/app.js']

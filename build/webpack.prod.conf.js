@@ -5,6 +5,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 // const UglifyJsParallelPlugin = require('webpack-uglify-parallel')
 
 module.exports = merge(baseWebpackConfig, {
+  mode: 'production',
   entry: {
     'front': './src/front/app.js',
     'background': './src/background/app.js'
@@ -23,6 +24,6 @@ module.exports = merge(baseWebpackConfig, {
         drop_debugger: true
        }
     })*/
-    new webpack.optimize.UglifyJsPlugin()
+    // new webpack.optimize.UglifyJsPlugin()
   ]
 })

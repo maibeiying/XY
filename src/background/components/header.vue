@@ -1,7 +1,7 @@
 <template>
   <header v-once>
     <h1>
-      XY
+      趣味馆
     </h1>
   </header>
 </template>

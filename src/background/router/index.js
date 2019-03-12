@@ -11,7 +11,7 @@ const banner = () => import('../views/banner.vue') // 广告管理
 const addBanner = () => import('../views/addBanner.vue') // 添加广告
 const addGoods = () => import('../views/addGoods.vue') // 添加商品
 const category = () => import('../views/category.vue') // 类目管理
-const evaluate = () => import('../views/evaluate.vue') // 类目管理
+// const evaluate = () => import('../views/evaluate.vue') // 类目管理
 
 Vue.use(Router)
 
@@ -62,11 +62,11 @@ export default new Router({
           path: 'category',
           name: 'category',
           component: category
-        }, {
+        }/* , {
           path: 'evaluate',
           name: 'evaluate',
           component: evaluate
-        }
+        } */
       ]
     }
   ]

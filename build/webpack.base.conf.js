@@ -1,14 +1,16 @@
 const path = require('path')
 const os = require('os')
 const webpack = require('webpack')
-const cssnext = require('postcss-cssnext')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+// const cssnext = require('postcss-cssnext')
+// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require('happypack')
 
 let happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
-let outputPath = path.resolve(__dirname, 'static/dist/')
+let outputPath = path.resolve(__dirname, '../static/dist/')
 let publicPath = '/dist/'
 
 
@@ -47,19 +49,19 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         // loader: 'happypack/loader?id=styles',
-        options: {
+        /* options: {
           loaders:{
             css: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
               use: 'css-loader',
               fallback: 'vue-style-loader'
             }))
           }
-        }
+        } */
       },
       {
         test: /\.js$/,
-        // loader: 'happypack/loader?id=js',
-        loader: 'babel-loader',
+        loader: 'happypack/loader',
+        // loader: 'babel-loader',
         exclude: /node_modules/,
         options: {
           'presets': ['env', 'stage-3'],
@@ -68,31 +70,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
-          use: ['css-loader', {
-            loader: 'postcss-loader',
-            options: {
-              plugins () {
-                return [cssnext({
-                  "browserslist": [
-                    "last 3 version",
-                    "ie 9"
-                  ],
-                  features: {
-                    customProperties: {
-                      variables: {
-                        '--main-color': '#409EFF',
-                        '--light-color': '#eaf6fc',
-                        '--c-color': '#ededed',
-                        '--border-color': '#efefef'
-                      }
-                    }
-                  }
-                })]
-              }
-            }
-          }]
-        }))
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader'
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -111,35 +93,23 @@ module.exports = {
     ]
   },
   plugins: [
-    /*new HappyPack({
-      id: 'js',
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/app.css',
+    }),
+    new HappyPack({
       loaders: [{
         path: 'babel-loader',
         options: {
+          'cachedirectory': true,
           'presets': ['env', 'stage-3'],
           'plugins': ["transform-runtime"]
         }
       }],
       threadPool: happyThreadPool,
-      cache: true,
+      // cache: true,
       verbose: true
     }),
-    new HappyPack({
-      id: 'styles',
-      threadPool: happyThreadPool,
-      loaders: [{
-        path: 'vue-loader',
-        options: {
-          loaders:{
-            css: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
-              use: 'css-loader',
-              fallback: 'vue-style-loader'
-            }))
-          }
-        }
-      }]
-      // loaders: [ 'vue-style-loader', 'css-loader', 'postcss-loader', 'css-hot-loader']
-    }),*/
     new HtmlWebpackPlugin({
       title: 'XY',
       alwaysWriteToDisk: true,
@@ -173,7 +143,7 @@ module.exports = {
     new HtmlWebpackHarddiskPlugin({
       outputPath: path.resolve(__dirname, '../views/dist')
     }),
-    new webpack.LoaderOptionsPlugin({
+    /* new webpack.LoaderOptionsPlugin({
       vue: {
         postcss: [
           cssnext({
@@ -194,8 +164,8 @@ module.exports = {
           })
         ]
       }
-    }),
-    new ExtractTextPlugin({filename: '[name].css', allChunks: true}),
+    }), */
+    // new ExtractTextPlugin({filename: '[name].css', allChunks: true}),
     // new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   ]
